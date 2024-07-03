@@ -1,0 +1,473 @@
+ <!-- 
+ /**
+ * Webkul Software.
+ *
+ * @category Webkul
+ * @package Opencart Module Tutorial
+ * @author Webkul
+ * @license https://store.webkul.com/license.html
+ */
+ -->
+<style>
+.binance_manual_payment_selection_content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+  }
+  .binance_manual_payment_QR_and_Info{
+    display: flex;
+    width: 45%;
+    justify-content: space-around;
+    align-items: center;
+	border-bottom: solid 1px gray;
+		padding-bottom:1%;
+
+  }
+  .binance_manual_payment_text{
+    text-align: center;
+		width:65%;
+  }
+  .binance_manual_payment_QR_image img{
+    width: 150px;
+    height: 150px;
+  }
+.binance_manual_payment_copyField{
+	width:45%;
+	    align-items: center;
+	display: flex;
+    justify-content: space-between;
+	margin-top:1%;
+	border-bottom: solid 1px gray;
+}
+.binance_manual_payment_text p{
+	color:black;
+	font-size:12px;
+}
+.Binance_manual_payment_basic_info{
+	margin-top:1%;
+	width:70%;
+}
+.Binance_manual_payment_basic_info p{
+	font-size:12px;
+	color:black;
+}
+.binance_manual_payment_copyField p{
+	font-size:12px;
+	color:black;
+}
+.binance_manual_copyIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+</style>
+ <h2>{{ text_title }}</h2>
+<div class="well well-sm">
+  <p>{{ text_desciption }}</p>
+  <p>{{ text_notice }}</p>
+</div>
+
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#button-confirm').on('click', function() {
+    $.ajax({
+        url: 'index.php?route=extension/payment/cryptomanual_payment/send',
+        dataType: 'json',
+        beforeSend: function() {
+            $('#button-confirm').button('loading');
+        },
+        complete: function() {
+            $('#button-confirm').button('reset');
+        },
+        success: function(json) {
+            if (json['redirect']) {
+                location = json['redirect'];    
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+//--></script>
+
+    <script>
+                        var countDiv = document.getElementById("timer_Binance_manual_payment_gateway");
+                        var sec = 30 * 60; // 30 minutes in seconds
+
+                        function updateTimer() {
+                            var min = Math.floor(sec / 60);
+                            var remSec = sec % 60;
+
+                            if (remSec < 10) {
+                                remSec = '0' + remSec;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+
+                            countDiv.innerHTML = min + ":" + remSec;
+
+                            if (sec > 0) {
+                                sec--;
+                            } else {
+                                clearInterval(countDown);
+                                sec = 30 * 60; // Reset timer to 30 minutes
+                                countDown = setInterval(updateTimer, 1000); // Start timer again
+                            }
+                        }
+
+                        // Update the timer every second
+                        var countDown = setInterval(updateTimer, 1500);
+                    </script>
+
+                <script>
+                    document.getElementById('option1crypto').style.display = 'block';
+
+                    document.getElementById('selectOptionCryptoManual').addEventListener('change', function() {
+                        var selectedOption = this.value;
+                        var contentDivs = document.querySelectorAll('.binance_manual_payment_selection_content');
+                        for (var i = 0; i < contentDivs.length; i++) {
+                            if (contentDivs[i].id === selectedOption) {
+                                contentDivs[i].style.display = 'block';
+                            } else {
+                                contentDivs[i].style.display = 'none';
+                            }
+                        }
+
+                    });
+
+
+
+                 
+
+function copyTextClipboardXLMcrypto() {
+            var copyText = document.getElementById("XLMwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}                
+
+                   
+function copyTextClipboardStellarMemocrypto() {
+                        var copyText = document.getElementById("StellarMemoFullAddresscrypto").innerText;
+                        var tempInput = document.createElement("input");
+                        tempInput.value = copyText;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(tempInput);
+                        document.getElementById("StellarMemoAddress").style.fontWeight = "bold";
+                    }
+                   
+function copyTextClipboardShibacrypto() {
+            var copyText = document.getElementById("Shibawalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+} 
+
+function copyTextClipboardUsdCoincrypto() {
+            var copyText = document.getElementById("UsdCoinawalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}                   
+                   
+ function copyTextClipboardXrpcrypto() {
+            var copyText = document.getElementById("Xrpawalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}   
+               
+function copyTextClipboardRippleMemocrypto() {
+                        var copyText = document.getElementById("RippleMemoFullAddresscrypto").innerText;
+                        var tempInput = document.createElement("input");
+                        tempInput.value = copyText;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(tempInput);
+                        document.getElementById("RippleMemoAddress").style.fontWeight = "bold";
+                    }
+       
+ function copyTextClipboardAdacrypto() {
+            var copyText = document.getElementById("ADAwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}              
+
+function copyTextClipboardSolcrypto() {
+            var copyText = document.getElementById("SolanaWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}                
+                
+function copyTextClipboardDotcrypto() {
+            var copyText = document.getElementById("PolkadotWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}         
+              
+function copyTextClipboardMaticcrypto() {
+            var copyText = document.getElementById("MaticWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}      
+
+function copyTextClipboardDogecrypto() {
+            var copyText = document.getElementById("DogeWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardUsdtErccrypto() {
+            var copyText = document.getElementById("UsdtErcWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardBTHcrypto() {
+            var copyText = document.getElementById("BTHwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardETHcrypto() {
+            var copyText = document.getElementById("ETHwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardLTCcrypto() {
+            var copyText = document.getElementById("LTCwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+}
+function copyTextClipboardUSDTTRCcrypto() {
+            var copyText = document.getElementById("USDTTRCwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardBCHcrypto() {
+            var copyText = document.getElementById("BCHwalletaddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardBNBcrypto() {
+            var copyText = document.getElementById("BNBWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+                
+function copyTextClipboardBCHBcrypto() {
+            var copyText = document.getElementById("BCHBWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardDaicrypto() {
+            var copyText = document.getElementById("DaiWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+                
+function copyTextClipboardEthClassiccrypto() {
+            var copyText = document.getElementById("EthClassicWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+                 
+function copyTextClipboardAvaxcrypto() {
+            var copyText = document.getElementById("AvaxWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+               
+function copyTextClipboardTroncrypto() {
+            var copyText = document.getElementById("TronWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+function copyTextClipboardChaincrypto() {
+            var copyText = document.getElementById("ChainWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+                 
+function copyTextClipboardToncrypto() {
+            var copyText = document.getElementById("TonWalletAddresscrypto");
+   			 var walletAddressText = copyText.textContent || copyText.innerText;
+            walletAddressText = walletAddressText.replace('address: ', '').trim();
+    navigator.clipboard.writeText(walletAddressText).then(function() {
+                copyText.style.fontWeight = "bold";
+            }).catch(function(error) {
+                console.error("Failed to copy text: ", error);
+            });
+   
+}
+
+
+
+                    // Event listener for select option change
+                    document.getElementById('selectOptionCryptoManual').addEventListener('change', function() {
+                        // Get the selected option value
+                        var selectedOption = this.value;
+
+                        // Hide all payment selection content
+                        var contentDivs = document.querySelectorAll('.binance_manual_payment_selection_content');
+                        for (var i = 0; i < contentDivs.length; i++) {
+                            contentDivs[i].style.display = 'none';
+                        }
+
+                        // Show the selected payment selection content
+                        document.getElementById(selectedOption).style.display = 'block';
+
+                        // Clear previous countdown intervals
+                        clearInterval(intervalIdBTC);
+                        clearInterval(intervalIdETH);
+
+                        // Start new countdown interval based on selected option
+                        if (selectedOption === 'option1') {
+                            intervalIdBTC = setInterval(updateCountdownBTC, 1000);
+                        } else if (selectedOption === 'option2') {
+                            intervalIdETH = setInterval(updateCountdownETH, 1000);
+                        }
+                    });
+                </script>
